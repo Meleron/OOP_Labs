@@ -1,15 +1,43 @@
 apply plugin: 'com.android.application'
 
+def countCommits = { ->
+    try {
+        def count = 'git rev-list --all --count'.execute().text.trim();
+        return Integer.parseInt(count);
+    } catch(Exception){
+        return -1;
+    }
+
+}
+
+def getVName = {->
+    try{
+        def version = 'git describe --tags'.execute().text.trim();
+        return version + '.' + countCommits().toString();
+    } catch(Exception){
+        return null;
+    }
+}
+
 android {
+    signingConfigs {
+        release {
+            keyAlias = 'key0'
+            keyPassword '123456'
+            storePassword '123456'
+            storeFile file('D:\\Programs\\androidkeystrokes\\lab1keystroke.jks')
+        }
+    }
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "com.example.lab1"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        versionCode countCommits()
+        versionName getVName()
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.release
     }
     buildTypes {
         release {

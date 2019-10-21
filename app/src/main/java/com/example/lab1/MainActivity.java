@@ -25,7 +25,20 @@ public class MainActivity extends AppCompatActivity {
         getDeviceId();
     }
 
-    public void requestPermissionsWithRationale(){
+    public void onButtonVersionClick(View view) {getDeviceVersion();}
+
+    public void getDeviceVersion(){
+        try{
+//            Toast.makeText(this, "android id: " + this.getPackageManager().getPackageInfo(getPackageName(), 0).versionName,
+//                    Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "android version: " + BuildConfig.VERSION_NAME,
+                    Toast.LENGTH_LONG).show();
+
+        } catch (Exception ex){}
+    }
+
+    public void requestPermissionsWithExplanation(){
+
         if(shouldShowRequestPermissionRationale(Manifest.permission.READ_PHONE_STATE)){
             final String message = "We need to access this permission to get your phone ID";
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -51,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "android id: " + telephonyManager.getDeviceId(),
                     Toast.LENGTH_LONG).show();
         } else
-            requestPermissionsWithRationale();
+            requestPermissionsWithExplanation();
 
     }
 

@@ -4,17 +4,17 @@ def countCommits = { ->
     try {
         def count = 'git rev-list --all --count'.execute().text.trim();
         return Integer.parseInt(count);
-    } catch(Exception){
+    } catch (Exception) {
         return -1;
     }
 
 }
 
-def getVName = {->
-    try{
-        def version = 'git describe --tags'.execute().text.trim();
-        return version + '.' + countCommits().toString();
-    } catch(Exception){
+def getVName = { ->
+    try {
+        def version = 'git describe --tags'.execute().text.trim().replaceAll('-', '.').find('(\\d+\\.){2}')
+        return version + countCommits().toString();
+    } catch (Exception) {
         return null;
     }
 }

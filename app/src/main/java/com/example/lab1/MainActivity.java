@@ -13,13 +13,23 @@ import android.view.View;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-
+    boolean isShowing = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if(savedInstanceState != null){
+            isShowing = savedInstanceState.getBoolean("isShowing");
+            if(isShowing)
+                showAlert();
+        }
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState){
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("isShowing", isShowing);
+    }
 
     public void onButtonClick(View view) {
         getDeviceId();
@@ -40,22 +50,27 @@ public class MainActivity extends AppCompatActivity {
     public void requestPermissionsWithExplanation(){
 
         if(shouldShowRequestPermissionRationale(Manifest.permission.READ_PHONE_STATE)){
-            final String message = "We need to access this permission to get your phone ID";
-            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            builder.setTitle("warning")
-                    .setMessage(message)
-                    .setCancelable(false)
-                    .setNegativeButton("Understood",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, 1);
-                                }
-                            });
-            AlertDialog alert = builder.create();
-            alert.show();
+            showAlert();
+            isShowing = true;
         } else
             requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, 1);
 
+    }
+
+    public void showAlert(){
+        final String message = "We need to access this permission to get your phone ID";
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("warning")
+                .setMessage(message)
+                .setCancelable(false)
+                .setNegativeButton("Understood",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, 1);
+                            }
+                        });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     public void getDeviceId() {

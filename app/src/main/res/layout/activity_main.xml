@@ -1,27 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".activity.CalculatorActivity">
+<LinearLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+tools:context=".MainActivity"
+android:id="@+id/root"
+android:focusableInTouchMode="true">
 
-    <EditText
+    <FrameLayout
+        android:focusableInTouchMode="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textAlignment="textEnd"
-        android:inputType="none"
-        android:textIsSelectable="true"
-        android:background="@color/colorKeyPad"
-        android:layout_weight="2"
-        android:editable="false"
-        android:textSize="32sp"
-        android:textColor="@android:color/background_light"
-        android:id="@+id/expressionText"/>
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        >
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/frame"
+        <AutoCompleteTextView
+            android:id="@+id/rss_edit"
+            android:layout_width="356dp"
+            android:layout_height="match_parent"
+            android:hint="@string/rss"
+            android:imeOptions="actionDone"
+            android:inputType="textUri"
+            android:text="@string/default_url"
+            android:textColor="@color/colorPrimaryDark" />
+    
+        <TextView
+            android:id="@+id/rss_name"
+            android:layout_width="356dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/border"
+            android:gravity="center"
+            android:text="@string/no_rss"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20sp"
+            android:textStyle="italic" />
+    
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="53dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:background="@drawable/border"
+            android:textColor="@color/colorPrimaryDark"
+            android:text="I" />
+    
+    
+    </FrameLayout>
+    
+    
+    <ImageView
+        android:id="@+id/urlFeed"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"/>
+        android:layout_height="wrap_content"
+        android:background="@drawable/border" />
+    
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/swipe_refresh">
+    
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/article_layout"
+            android:id="@+id/list_view"
+            />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 </LinearLayout>
